@@ -1,7 +1,8 @@
 # Copyright (c) 2020 Open Technologies for Integration
 # Licensed under the MIT license (see LICENSE for details)
 
-FROM ace-minimal:11.0.0.11-alpine
+FROM tdolby/experimental:ace-minimal-11.0.0.11-alpine
+# FROM ace-minimal:11.0.0.11-alpine
 
 #
 # This image is used to run integration solutions in a cloud. Although this file is in

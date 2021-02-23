@@ -9,7 +9,7 @@ spec:
       script: |
         #!/bin/sh
         cd /work
-        git clone "https://github.com/ot4i/ace-docker"
+        git clone "https://github.com/tdolby-at-uk-ibm-com/ace-pipeline-demo-21-02"
       volumeMounts:
         - mountPath: /work
           name: work
@@ -23,13 +23,25 @@ spec:
       volumeMounts:
         - mountPath: /work
           name: work
-    - name: echo
+    - name: maven-build
       image: tdolby/experimental:pipeline-travis-build-maven
       script: |
-        #!/bin/sh
-        cd /work/ace-docker
-        ls -l /work/ace-docker/experimental/ace-minimal/Dockerfile.alpine
-        #mvn verify
+        #!/bin/bash
+        export LICENSE=accept
+        . /opt/ibm/ace-11/server/bin/mqsiprofile
+        cd /work/ace-pipeline-demo-21-02
+        mvn verify
+      volumeMounts:
+        - mountPath: /work
+          name: work
+    - name: preprod-container-setup
+      image: tdolby/experimental:pipeline-travis-build-maven
+      script: |
+        #!/bin/bash
+        mkdir -p /work/ace-pipeline-demo-21-02/scripts/preprod-container/bars/
+        cp /work/ace-pipeline-demo-21-02/TeaRESTApplication/tea.bar /work/ace-pipeline-demo-21-02/scripts/preprod-container/bars/
+        cp /work/ace-pipeline-demo-21-02/TeaSharedLibrary/tea-shlib.bar /work/ace-pipeline-demo-21-02/scripts/preprod-container/bars/
+        find /work/ace-pipeline-demo-21-02/scripts/preprod-container -print
       volumeMounts:
         - mountPath: /work
           name: work
@@ -42,9 +54,9 @@ spec:
       command:
         - /kaniko/executor
       args:
-        - --dockerfile=/work/ace-docker/experimental/ace-minimal/Dockerfile.alpine
-        - --destination=uk.icr.io/ace-registry/test-tekton
-        - --context=/work/ace-docker/experimental/ace-minimal
+        - --dockerfile=/work/ace-pipeline-demo-21-02/scripts/preprod-container/Dockerfile
+        - --destination=uk.icr.io/ace-registry/tea-tekton
+        - --context=/work/ace-pipeline-demo-21-02/scripts/preprod-container
       volumeMounts:
         - mountPath: /work
           name: work
