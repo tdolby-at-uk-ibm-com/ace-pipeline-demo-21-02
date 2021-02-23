@@ -11,6 +11,7 @@ kubectl apply -f https://raw.githubusercontent.com/tdolby-at-uk-ibm-com/ace-pipe
 
 kubectl apply -f https://storage.googleapis.com/tekton-releases/pipeline/previous/v0.21.0/release.yaml
 kubectl apply -f https://raw.githubusercontent.com/tdolby-at-uk-ibm-com/ace-pipeline-demo-21-02/main/tekton/10-maven-ace-build-task.yaml
+kubectl apply -f https://raw.githubusercontent.com/tdolby-at-uk-ibm-com/ace-pipeline-demo-21-02/main/tekton/20-deploy-to-cluster-task.yaml
 kubectl apply -f https://raw.githubusercontent.com/tdolby-at-uk-ibm-com/ace-pipeline-demo-21-02/main/tekton/ace-pipeline.yaml
 
 tkn pipelinerun delete -f ace-pipeline-run-1 ; kubectl apply -f https://raw.githubusercontent.com/tdolby-at-uk-ibm-com/ace-pipeline-demo-21-02/main/tekton/ace-pipeline-run.yaml && tkn pipelinerun logs ace-pipeline-run-1 -f
