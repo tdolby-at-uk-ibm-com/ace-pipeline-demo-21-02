@@ -25,7 +25,7 @@ COPY bars /tmp/
 
 RUN chown aceuser /tmp/* && chmod 775 /tmp/*sh
 
-# Kaniko seems to chmod this directory by mistake in one of the COPY commands above
+# Kaniko seems to chmod this directory 755 by mistake in one of the COPY commands above
 RUN chmod 1777 /tmp
 
 USER aceuser
