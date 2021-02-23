@@ -17,22 +17,18 @@ FROM tdolby/experimental:ace-minimal-11.0.0.11-alpine
 LABEL "maintainer"="tdolby@uk.ibm.com"
 USER root
 WORKDIR /
-RUN ls -l /
 
 COPY deploy-bars.sh /tmp/
 COPY init-creds.sh /tmp/
 COPY TEAJDBC.policyxml /tmp/
 COPY bars /tmp/
-RUN ls -l /
 
 RUN chown aceuser /tmp/* && chmod 775 /tmp/*sh
-RUN ls -l /
+
+# Kaniko seems to chmod this directory by mistake in one of the COPY commands above
 RUN chmod 1777 /tmp
-RUN ls -l /
 
 USER aceuser
-
-RUN ls -l /
 
 # We're in an internal pipeline
 ENV LICENSE=accept
@@ -40,11 +36,7 @@ ENV LICENSE=accept
 # Switch off the admin REST API for the server run, as we won't be deploying anything after start
 RUN sed -i 's/#port: 7600/port: -1/g' /home/aceuser/ace-server/server.conf.yaml
 
-RUN ls -l /
-
 RUN /tmp/deploy-bars.sh /tmp
-
-RUN ls -l /
 
 # Set entrypoint to run the server
 ENTRYPOINT ["bash", "-c", "/tmp/init-creds.sh && IntegrationServer -w /home/aceuser/ace-server --no-nodejs"]
