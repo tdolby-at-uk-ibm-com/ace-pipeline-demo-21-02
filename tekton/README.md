@@ -2,8 +2,6 @@
 
 Used to run the pipeline stages via Tekton. Relies on the same IBM Cloud kubernetes cluster as before, with the JDBC
 credentials having been set up. 
-
-
 ![Pipeline overview](tekton-pipeline-picture.png)
 
 The tasks rely on several different containers:
