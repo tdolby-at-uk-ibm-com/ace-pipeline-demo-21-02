@@ -1,0 +1,21 @@
+# Compiled
+*.elc
+
+# Packaging
+.cask
+
+# Backup files
+*~
+
+# Undo-tree save-files
+*.~undo-tree
+
+# ACE v11
+*.bar
+*.class
+user.log
+service.log
+*.appzip
+*.shlibzip
+
+TeaSharedLibrary/TeaSharedLibraryJava.jar

@@ -1,0 +1,53 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: maven-ace-build
+spec:
+  steps:
+    - name: clone
+      image: gcr.io/tekton-releases/github.com/tektoncd/pipeline/cmd/git-init:v0.18.1
+      script: |
+        #!/bin/sh
+        cd /work
+        git clone "https://github.com/ot4i/ace-docker"
+      volumeMounts:
+        - mountPath: /work
+          name: work
+    - name: list
+      image: tdolby/experimental:pipeline-travis-build-maven
+      command:
+        - ls
+      args:
+        - "-l"
+        - "/work"
+      volumeMounts:
+        - mountPath: /work
+          name: work
+    - name: echo
+      image: tdolby/experimental:pipeline-travis-build-maven
+      script: |
+        #!/bin/sh
+        cd /work/ace-docker
+        ls -l /work/ace-docker/experimental/ace-minimal/Dockerfile.alpine
+        #mvn verify
+      volumeMounts:
+        - mountPath: /work
+          name: work
+    - name: docker-build-and-push
+      image: gcr.io/kaniko-project/executor:v0.16.0
+      # specifying DOCKER_CONFIG is required to allow kaniko to detect docker credential
+      env:
+        - name: "DOCKER_CONFIG"
+          value: "/tekton/home/.docker/"
+      command:
+        - /kaniko/executor
+      args:
+        - --dockerfile=/work/ace-docker/experimental/ace-minimal/Dockerfile.alpine
+        - --destination=uk.icr.io/ace-registry/test-tekton
+        - --context=/work/ace-docker/experimental/ace-minimal
+      volumeMounts:
+        - mountPath: /work
+          name: work
+  volumes:
+    - name: work
+      emptyDir: {}
