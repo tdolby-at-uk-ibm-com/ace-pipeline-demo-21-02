@@ -1,7 +1,12 @@
 # Tekton pipeline
 
 Used to run the pipeline stages via Tekton. Relies on the same IBM Cloud kubernetes cluster as before, with the JDBC
-credentials having been set up. The tasks rely on several different containers:
+credentials having been set up. 
+
+
+![Pipeline overview](tekton-pipeline-picture.png)
+
+The tasks rely on several different containers:
 
 - The Tekton git-init image to run the initial git clones.
 - The pipeline-travis-build image from demo-infrastructure/docker/pipeline-travis-build in this repo. Tekton is not using TravisCI, but the image allows building Java and ACE artifacts. 
