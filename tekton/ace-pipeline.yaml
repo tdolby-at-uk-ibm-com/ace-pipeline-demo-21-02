@@ -10,3 +10,5 @@ spec:
     - name: deploy-to-cluster
       taskRef:
         name: deploy-to-cluster
+      runAfter:
+        - build-from-source
