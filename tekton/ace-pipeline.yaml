@@ -7,8 +7,14 @@ spec:
     - name: build-from-source
       taskRef:
         name: maven-ace-build
+      params:
+        - name: dockerRegistry
+          value: "uk.icr.io/ace-registry"
     - name: deploy-to-cluster
       taskRef:
         name: deploy-to-cluster
+      params:
+        - name: dockerRegistry
+          value: "uk.icr.io/ace-registry"
       runAfter:
         - build-from-source

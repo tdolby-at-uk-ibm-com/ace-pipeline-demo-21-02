@@ -3,6 +3,9 @@ kind: Task
 metadata:
   name: deploy-to-cluster
 spec:
+  params:
+    - name: dockerRegistry
+      type: string
   steps:
     - name: clone
       image: gcr.io/tekton-releases/github.com/tektoncd/pipeline/cmd/git-init:v0.18.1
@@ -10,6 +13,7 @@ spec:
         #!/bin/sh
         cd /work
         git clone "https://github.com/tdolby-at-uk-ibm-com/ace-pipeline-demo-21-02"
+        sed -i "s/DOCKER_REGISTRY/$(params.dockerRegistry)/g" /work/ace-pipeline-demo-21-02/tekton/tea-tekton-deployment.yaml
       volumeMounts:
         - mountPath: /work
           name: work
