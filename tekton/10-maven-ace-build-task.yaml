@@ -60,6 +60,7 @@ spec:
         - --dockerfile=/work/ace-pipeline-demo-21-02/scripts/preprod-container/Dockerfile
         - --destination=$(params.dockerRegistry)/tea-tekton
         - --context=/work/ace-pipeline-demo-21-02/scripts/preprod-container
+        - --skip-tls-verify
       volumeMounts:
         - mountPath: /work
           name: work
