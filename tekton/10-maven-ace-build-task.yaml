@@ -32,8 +32,9 @@ spec:
         #!/bin/bash
         export LICENSE=accept
         . /opt/ibm/ace-11/server/bin/mqsiprofile
+        mkdir /work/maven-output
         cd /work/ace-pipeline-demo-21-02
-        mvn verify
+        mvn -Dinstall.work.directory=/work/maven-output/ace-server install
       volumeMounts:
         - mountPath: /work
           name: work
@@ -41,10 +42,8 @@ spec:
       image: tdolby/experimental:pipeline-travis-build-maven
       script: |
         #!/bin/bash
-        mkdir -p /work/ace-pipeline-demo-21-02/scripts/preprod-container/bars/
-        cp /work/ace-pipeline-demo-21-02/TeaRESTApplication/tea.bar /work/ace-pipeline-demo-21-02/scripts/preprod-container/bars/
-        cp /work/ace-pipeline-demo-21-02/TeaSharedLibrary/tea-shlib.bar /work/ace-pipeline-demo-21-02/scripts/preprod-container/bars/
-        find /work/ace-pipeline-demo-21-02/scripts/preprod-container -print
+        cd /work/maven-output
+        cp /work/ace-pipeline-demo-21-02/tekton/Dockerfile Dockerfile
       volumeMounts:
         - mountPath: /work
           name: work
@@ -57,9 +56,9 @@ spec:
       command:
         - /kaniko/executor
       args:
-        - --dockerfile=/work/ace-pipeline-demo-21-02/scripts/preprod-container/Dockerfile
+        - --dockerfile=/work/maven-output/Dockerfile
         - --destination=$(params.dockerRegistry)/tea-tekton
-        - --context=/work/ace-pipeline-demo-21-02/scripts/preprod-container
+        - --context=/work/maven-output
         - --skip-tls-verify
       volumeMounts:
         - mountPath: /work
