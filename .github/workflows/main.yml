@@ -41,5 +41,7 @@ jobs:
           ace-11.0.0.11/ace accept license silently
           . ace-11.0.0.11/server/bin/mqsiprofile
           mqsilist
+          echo "Running Maven install to $PWD/ace-server . . ."
+          mvn -Dinstall.work.directory=$PWD/ace-server install
           df -k
           
