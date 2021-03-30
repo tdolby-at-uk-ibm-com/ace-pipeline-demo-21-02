@@ -31,7 +31,7 @@ jobs:
           /bin/pwd
           env | sort
           df -k
-          curl http://public.dhe.ibm.com/ibmdl/export/pub/software/websphere/integration/11.0.0.11-ACE-LINUX64-DEVELOPER.tar.gz | tar -xzf -
+          curl -# http://public.dhe.ibm.com/ibmdl/export/pub/software/websphere/integration/11.0.0.11-ACE-LINUX64-DEVELOPER.tar.gz | tar -xzf -
           ace-11.0.0.11/ace accept license silently
           . ace-11.0.0.11/server/bin/mqsiprofile
           mqsilist
