@@ -43,4 +43,4 @@ jobs:
           . ace-11.0.0.11/server/bin/mqsiprofile
           mqsilist
           echo "Running Maven install to $PWD/ace-server . . ."
-          mvn -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn -Dinstall.work.directory=$PWD/ace-server install
+          mvn --no-transfer-progress -Dinstall.work.directory=$PWD/ace-server install
